@@ -1,0 +1,72 @@
+<Page
+    x:Class="MultiAI.Views.ChatPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MultiAI.Views"
+    xmlns:models="using:MultiAI.Models"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="Transparent">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Header: Model Selection -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0" x:Name="ProviderComboBox" Header="Provider" Width="150" PlaceholderText="Select Provider" SelectionChanged="ProviderComboBox_SelectionChanged" Loaded="ProviderComboBox_Loaded">
+                <ComboBoxItem Content="OpenAI" IsSelected="True"/>
+                <ComboBoxItem Content="Anthropic"/>
+                <ComboBoxItem Content="Google Gemini"/>
+            </ComboBox>
+            <ComboBox Grid.Column="1" x:Name="ModelComboBox" Header="Model" Width="200" PlaceholderText="Select Model" Margin="12,0,0,0"/>
+            <Button x:Name="DeleteChatButton" Grid.Column="3" HorizontalAlignment="Right" Content="Delete Chat" Background="Transparent" Foreground="Red" Click="DeleteChat_Click" VerticalAlignment="Bottom" Visibility="Collapsed"/>
+        </Grid>
+
+        <!-- Chat History -->
+        <Border Grid.Row="1" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                BorderThickness="1" CornerRadius="8" Padding="16">
+            <ListView x:Name="ChatListView" SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Message">
+                        <StackPanel Margin="0,8">
+                            <TextBlock Text="{x:Bind Role}" FontWeight="Bold" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
+                            <controls:MarkdownTextBlock Text="{x:Bind Content}" Margin="0,4,0,0" TextWrapping="WrapWholeWords" Background="Transparent"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
+
+        <!-- Input Area -->
+        <Grid Grid.Row="2" Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBox x:Name="InputTextBox" Grid.Column="0" 
+                     PlaceholderText="Type your message here..." 
+                     TextWrapping="Wrap" AcceptsReturn="True" MaxHeight="150" 
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                     Height="60" VerticalAlignment="Bottom"/>
+                     
+            <Button x:Name="SendButton" Grid.Column="1" 
+                    Style="{StaticResource AccentButtonStyle}" 
+                    Content="Send" Click="SendButton_Click"
+                    Margin="12,0,0,0" VerticalAlignment="Bottom" Height="60" Width="80"/>
+        </Grid>
+    </Grid>
+</Page>

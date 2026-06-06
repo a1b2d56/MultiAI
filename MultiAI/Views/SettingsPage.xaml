@@ -1,0 +1,74 @@
+<Page
+    x:Class="MultiAI.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MultiAI.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="Transparent">
+
+    <ScrollViewer>
+        <StackPanel Margin="24" Spacing="24" MaxWidth="800" HorizontalAlignment="Left">
+            <TextBlock Text="Settings" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,8"/>
+            
+            <InfoBar x:Name="SaveSuccessInfoBar" IsOpen="False" Severity="Success" Title="Saved" Message="Your API key has been securely saved to the Windows Credential Manager." />
+
+            <!-- Appearance Card -->
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                    BorderThickness="1" CornerRadius="8" Padding="20">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Appearance" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <ComboBox x:Name="ThemeComboBox" Header="App Theme" Width="200" SelectionChanged="ThemeComboBox_SelectionChanged">
+                        <ComboBoxItem Content="System Default" Tag="Default"/>
+                        <ComboBoxItem Content="Light" Tag="Light"/>
+                        <ComboBoxItem Content="Dark" Tag="Dark"/>
+                    </ComboBox>
+                </StackPanel>
+            </Border>
+            <!-- OpenAI Card -->
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                    BorderThickness="1" CornerRadius="8" Padding="20">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="OpenAI Configuration" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <PasswordBox x:Name="OpenAIApiKeyBox" Header="API Key" PlaceholderText="sk-..." Width="400" HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Button Content="Validate" />
+                        <Button Content="Save" Click="SaveOpenAI_Click" Style="{StaticResource AccentButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Anthropic Card -->
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                    BorderThickness="1" CornerRadius="8" Padding="20">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Anthropic Configuration" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <PasswordBox x:Name="AnthropicApiKeyBox" Header="API Key" PlaceholderText="sk-ant-..." Width="400" HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Button Content="Validate" />
+                        <Button Content="Save" Style="{StaticResource AccentButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Google Gemini Card -->
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                    BorderThickness="1" CornerRadius="8" Padding="20">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Google Gemini Configuration" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <PasswordBox x:Name="GeminiApiKeyBox" Header="API Key" PlaceholderText="AIzaSy..." Width="400" HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <Button Content="Validate" Click="ValidateGemini_Click" />
+                        <Button Content="Save" Click="SaveGemini_Click" Style="{StaticResource AccentButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>
