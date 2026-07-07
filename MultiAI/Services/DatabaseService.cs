@@ -14,9 +14,8 @@ namespace MultiAI.Services
 
         public async Task InitAsync()
         {
-            if (_db != null) return; // Already good to go
+            if (_db != null) return;
 
-            // Stick the DB in the local app data folder so it persists across updates
             var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MultiAI", "history.db");
             var dir = Path.GetDirectoryName(dbPath);
             if (!string.IsNullOrEmpty(dir))
@@ -25,8 +24,6 @@ namespace MultiAI.Services
             }
 
             _db = new SQLiteAsyncConnection(dbPath);
-            
-            // Fire and forget table creation; SQLite handles this gracefully if they already exist
             await _db.CreateTableAsync<ChatSession>();
             await _db.CreateTableAsync<Message>();
         }
@@ -36,6 +33,13 @@ namespace MultiAI.Services
             await InitAsync();
             if (_db == null) return 0;
             return await _db.InsertOrReplaceAsync(session);
+        }
+
+        public async Task<ChatSession?> GetSessionAsync(string sessionId)
+        {
+            await InitAsync();
+            if (_db == null) return null;
+            return await _db.Table<ChatSession>().Where(s => s.SessionId == sessionId).FirstOrDefaultAsync();
         }
 
         public async Task<List<ChatSession>> GetAllSessionsAsync()
@@ -49,11 +53,10 @@ namespace MultiAI.Services
         {
             await InitAsync();
             if (_db == null) return 0;
-            
-            // Wipe the actual messages first to avoid leaving orphaned rows around
+
             var msgs = await _db.Table<Message>().Where(m => m.SessionId == sessionId).ToListAsync();
             foreach (var m in msgs) await _db.DeleteAsync(m);
-            
+
             return await _db.DeleteAsync<ChatSession>(sessionId);
         }
 
@@ -61,7 +64,7 @@ namespace MultiAI.Services
         {
             await InitAsync();
             if (_db == null) return 0;
-            return await _db.InsertAsync(message);
+            return await _db.InsertOrReplaceAsync(message);
         }
 
         public async Task<List<Message>> GetMessagesAsync(string sessionId)
