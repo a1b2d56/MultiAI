@@ -10,63 +10,122 @@
     mc:Ignorable="d"
     Background="Transparent">
 
-    <Grid Margin="16">
+    <Grid Margin="20,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Top Header: Model Selection -->
-        <Grid Grid.Row="0" Margin="0,0,0,16">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <ComboBox Grid.Column="0" x:Name="ProviderComboBox" Header="Provider" Width="150" PlaceholderText="Select Provider" SelectionChanged="ProviderComboBox_SelectionChanged" Loaded="ProviderComboBox_Loaded">
-                <ComboBoxItem Content="OpenAI" IsSelected="True"/>
-                <ComboBoxItem Content="Anthropic"/>
-                <ComboBoxItem Content="Google Gemini"/>
-            </ComboBox>
-            <ComboBox Grid.Column="1" x:Name="ModelComboBox" Header="Model" Width="200" PlaceholderText="Select Model" Margin="12,0,0,0"/>
-            <Button x:Name="DeleteChatButton" Grid.Column="3" HorizontalAlignment="Right" Content="Delete Chat" Background="Transparent" Foreground="Red" Click="DeleteChat_Click" VerticalAlignment="Bottom" Visibility="Collapsed"/>
-        </Grid>
-
-        <!-- Chat History -->
-        <Border Grid.Row="1" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+        <!-- Top Header: Provider & Model Picker -->
+        <Border Grid.Row="0" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
-                BorderThickness="1" CornerRadius="8" Padding="16">
-            <ListView x:Name="ChatListView" SelectionMode="None">
+                BorderThickness="1" CornerRadius="10" Padding="16,12" Margin="0,0,0,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <ComboBox Grid.Column="0" 
+                          Header="Provider" 
+                          Width="180" 
+                          ItemsSource="{x:Bind ViewModel.AvailableProviders, Mode=OneWay}"
+                          SelectedItem="{x:Bind ViewModel.SelectedProvider, Mode=TwoWay}"
+                          SelectionChanged="ProviderComboBox_SelectionChanged"/>
+
+                <ComboBox Grid.Column="1" 
+                          Header="Model" 
+                          Width="240" 
+                          Margin="16,0,0,0"
+                          ItemsSource="{x:Bind ViewModel.AvailableModels, Mode=OneWay}"
+                          SelectedItem="{x:Bind ViewModel.SelectedModel, Mode=TwoWay}"/>
+
+                <Button Grid.Column="3" 
+                        Content="Delete Chat" 
+                        Foreground="{ThemeResource SystemFillColorCriticalBrush}" 
+                        Background="Transparent" 
+                        Command="{x:Bind ViewModel.DeleteChatCommand}" 
+                        VerticalAlignment="Bottom" 
+                        Visibility="{x:Bind ViewModel.IsDeleteVisible, Mode=OneWay}"/>
+            </Grid>
+        </Border>
+
+        <!-- Chat History List -->
+        <Border Grid.Row="1" 
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" 
+                BorderThickness="1" 
+                CornerRadius="12" 
+                Padding="16">
+            <ListView x:Name="ChatListView" 
+                      ItemsSource="{x:Bind ViewModel.Messages, Mode=OneWay}" 
+                      SelectionMode="None">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Padding" Value="0,4"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:Message">
-                        <StackPanel Margin="0,8">
-                            <TextBlock Text="{x:Bind Role}" FontWeight="Bold" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
-                            <controls:MarkdownTextBlock Text="{x:Bind Content}" Margin="0,4,0,0" TextWrapping="WrapWholeWords" Background="Transparent"/>
-                        </StackPanel>
+                        <Grid Margin="0,4">
+                            <!-- User Message Bubble -->
+                            <StackPanel HorizontalAlignment="Right" MaxWidth="640" Visibility="{x:Bind Role, Converter={StaticResource RoleToUserVisibilityConverter}, Mode=OneWay}">
+                                <Border Background="{ThemeResource AccentFillColorDefaultBrush}" CornerRadius="16,16,2,16" Padding="14,10">
+                                    <TextBlock Text="{x:Bind Content}" Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" TextWrapping="Wrap" FontSize="14"/>
+                                </Border>
+                                <TextBlock Text="{x:Bind FormattedTimestamp}" FontSize="10" Foreground="{ThemeResource TextFillColorTertiaryBrush}" HorizontalAlignment="Right" Margin="0,2,4,0"/>
+                            </StackPanel>
+
+                            <!-- AI Assistant Message Bubble -->
+                            <StackPanel HorizontalAlignment="Left" MaxWidth="720" Visibility="{x:Bind Role, Converter={StaticResource RoleToAiVisibilityConverter}, Mode=OneWay}">
+                                <StackPanel Orientation="Horizontal" Spacing="6" Margin="4,0,0,4">
+                                    <FontIcon Glyph="&#xE945;" FontSize="12" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
+                                    <TextBlock Text="{x:Bind Role}" FontWeight="SemiBold" FontSize="12" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
+                                </StackPanel>
+                                <Border Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="16,16,16,2" Padding="16,12">
+                                    <controls:MarkdownTextBlock Text="{x:Bind Content}" TextWrapping="Wrap" Background="Transparent"/>
+                                </Border>
+                                <TextBlock Text="{x:Bind FormattedTimestamp}" FontSize="10" Foreground="{ThemeResource TextFillColorTertiaryBrush}" Margin="4,2,0,0"/>
+                            </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Border>
 
+        <!-- Generation Progress / Thinking Bar -->
+        <ProgressBar Grid.Row="2" IsIndeterminate="True" Margin="0,8,0,4" Visibility="{x:Bind ViewModel.IsGenerating, Mode=OneWay}"/>
+
         <!-- Input Area -->
-        <Grid Grid.Row="2" Margin="0,16,0,0">
+        <Grid Grid.Row="3" Margin="0,8,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            
-            <TextBox x:Name="InputTextBox" Grid.Column="0" 
-                     PlaceholderText="Type your message here..." 
-                     TextWrapping="Wrap" AcceptsReturn="True" MaxHeight="150" 
-                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                     Height="60" VerticalAlignment="Bottom"/>
-                     
-            <Button x:Name="SendButton" Grid.Column="1" 
+
+            <TextBox Grid.Column="0" 
+                     Text="{x:Bind ViewModel.InputMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     PlaceholderText="Ask MultiAI anything..." 
+                     TextWrapping="Wrap" 
+                     AcceptsReturn="True" 
+                     MaxHeight="160" 
+                     Height="64" 
+                     VerticalAlignment="Bottom"
+                     KeyDown="InputTextBox_KeyDown"/>
+
+            <Button Grid.Column="1" 
                     Style="{StaticResource AccentButtonStyle}" 
-                    Content="Send" Click="SendButton_Click"
-                    Margin="12,0,0,0" VerticalAlignment="Bottom" Height="60" Width="80"/>
+                    Content="Send" 
+                    Command="{x:Bind ViewModel.SendMessageCommand}" 
+                    Margin="12,0,0,0" 
+                    VerticalAlignment="Bottom" 
+                    Height="64" 
+                    Width="90"/>
         </Grid>
     </Grid>
 </Page>
