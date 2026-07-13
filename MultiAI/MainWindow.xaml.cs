@@ -1,14 +1,14 @@
 #nullable enable
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using MultiAI.Views;
+using MultiAI.ViewModels;
 using System;
 
 namespace MultiAI
 {
     public sealed partial class MainWindow : Window
     {
-        private Services.DatabaseService _db = new Services.DatabaseService();
+        public MainViewModel ViewModel { get; } = new MainViewModel();
 
         public MainWindow()
         {
@@ -35,13 +35,14 @@ namespace MultiAI
 
         public async void RefreshSidebar()
         {
+            await ViewModel.LoadSessionsAsync();
+
             while (NavView.MenuItems.Count > 2)
             {
                 NavView.MenuItems.RemoveAt(2);
             }
 
-            var sessions = await _db.GetAllSessionsAsync();
-            foreach (var session in sessions)
+            foreach (var session in ViewModel.Sessions)
             {
                 string cleanTitle = session.Title?.Replace("\r", "")?.Replace("\n", " ")?.Trim() ?? "New Chat";
                 var item = new NavigationViewItem 
