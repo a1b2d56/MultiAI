@@ -150,7 +150,7 @@ namespace MultiAI.ViewModels
                 {
                     SessionId = SessionId,
                     Role = SelectedProvider,
-                    Content = $"Please save your {SelectedProvider} API key in Settings first.",
+                    Content = $"Please configure your {SelectedProvider} API key in Settings first.",
                     Timestamp = DateTime.Now
                 };
                 Messages.Add(systemErr);
@@ -159,7 +159,7 @@ namespace MultiAI.ViewModels
             }
 
             IsGenerating = true;
-            StatusText = $"{SelectedProvider} is thinking...";
+            StatusText = $"{SelectedProvider} is generating response...";
 
             var aiMsg = new Message
             {
@@ -185,6 +185,8 @@ namespace MultiAI.ViewModels
                 bool receivedTokens = false;
                 await foreach (var token in tokenStream)
                 {
+                    if (_streamCts.IsCancellationRequested) break;
+
                     receivedTokens = true;
                     aiMsg.Content += token;
                     Messages[aiMsgIndex] = new Message
@@ -204,9 +206,14 @@ namespace MultiAI.ViewModels
                     Messages[aiMsgIndex] = aiMsg;
                 }
             }
+            catch (OperationCanceledException)
+            {
+                aiMsg.Content += "\n\n*[Response generation cancelled by user]*";
+                Messages[aiMsgIndex] = aiMsg;
+            }
             catch (Exception ex)
             {
-                aiMsg.Content = $"Error: {ex.Message}";
+                aiMsg.Content = $"Error generating response: {ex.Message}";
                 Messages[aiMsgIndex] = aiMsg;
             }
             finally
