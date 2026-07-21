@@ -89,7 +89,7 @@ namespace MultiAI.Providers
             }
         }
 
-        public async async IAsyncEnumerable<string> StreamMessageAsync(string message, List<Message> history, [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<string> StreamMessageAsync(string message, List<Message> history, [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrEmpty(_apiKey))
             {

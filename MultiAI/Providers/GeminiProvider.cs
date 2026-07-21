@@ -86,7 +86,7 @@ namespace MultiAI.Providers
             }
         }
 
-        public async async IAsyncEnumerable<string> StreamMessageAsync(
+        public async IAsyncEnumerable<string> StreamMessageAsync(
             string message, 
             List<Message> history, 
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
