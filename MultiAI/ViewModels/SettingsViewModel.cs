@@ -59,19 +59,24 @@ namespace MultiAI.ViewModels
 
         private void LoadThemeSetting()
         {
-            if (Windows.Storage.ApplicationData.Current.LocalSettings.Values.TryGetValue("AppTheme", out object? val) && val is string themeStr)
+            try
             {
-                SelectedThemeIndex = themeStr switch
+                if (Windows.Storage.ApplicationData.Current.LocalSettings.Values.TryGetValue("AppTheme", out object? val) && val is string themeStr)
                 {
-                    "Light" => 1,
-                    "Dark" => 2,
-                    _ => 0
-                };
+                    SelectedThemeIndex = themeStr switch
+                    {
+                        "Light" => 1,
+                        "Dark" => 2,
+                        _ => 0
+                    };
+                    return;
+                }
             }
-            else
+            catch
             {
-                SelectedThemeIndex = 0;
+                // Fallback for non-packaged unit test environment
             }
+            SelectedThemeIndex = 0;
         }
 
         [RelayCommand]
@@ -147,7 +152,12 @@ namespace MultiAI.ViewModels
                 _ => ElementTheme.Default
             };
 
-            Windows.Storage.ApplicationData.Current.LocalSettings.Values["AppTheme"] = theme.ToString();
+            try
+            {
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["AppTheme"] = theme.ToString();
+            }
+            catch { }
+
             (App.Current as App)?.MainWindowRef?.SetTheme(theme);
         }
 

@@ -64,7 +64,11 @@ namespace MultiAI.Services
         {
             await InitAsync();
             if (_db == null) return 0;
-            return await _db.InsertOrReplaceAsync(message);
+            if (message.Id > 0)
+            {
+                return await _db.UpdateAsync(message);
+            }
+            return await _db.InsertAsync(message);
         }
 
         public async Task<List<Message>> GetMessagesAsync(string sessionId)

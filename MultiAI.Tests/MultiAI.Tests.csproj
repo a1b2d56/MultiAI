@@ -5,6 +5,11 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <Platforms>x86;x64;ARM64</Platforms>
+    <WindowsAppSDKAutoInitialize>false</WindowsAppSDKAutoInitialize>
+    <WindowsAppSDKFoundationAutoInitialize>false</WindowsAppSDKFoundationAutoInitialize>
+    <WindowsAppSDKBootstrapInitialize>false</WindowsAppSDKBootstrapInitialize>
+    <DisableWinUIModuleInitializer>true</DisableWinUIModuleInitializer>
+    <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
 
   <ItemGroup>
