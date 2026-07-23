@@ -23,6 +23,16 @@ namespace MultiAI.Tests
             Assert.NotNull(vm.OpenAIApiKey);
             Assert.NotNull(vm.AnthropicApiKey);
             Assert.NotNull(vm.GeminiApiKey);
+            Assert.Equal(0, vm.SelectedThemeIndex);
+        }
+
+        [Fact]
+        public async Task SettingsViewModel_ValidateKeyWithEmptyKey_ShouldShowMessage()
+        {
+            var vm = new SettingsViewModel();
+            await vm.ValidateKeyAsync("OpenAI");
+            Assert.True(vm.IsSaveSuccessOpen);
+            Assert.Contains("valid key", vm.StatusMessage);
         }
     }
 }
