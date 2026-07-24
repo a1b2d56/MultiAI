@@ -22,8 +22,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore MultiAI.slnx
 
-    - name: Build Solution
-      run: dotnet build MultiAI.slnx --configuration Release --no-restore
+    - name: Build Solution (x64)
+      run: dotnet build MultiAI.slnx --configuration Release -p:Platform=x64 --no-restore
 
-    - name: Run xUnit Unit Tests
-      run: dotnet test MultiAI.slnx --configuration Release --no-build --verbosity normal
+    - name: Run xUnit Unit Tests (x64)
+      run: dotnet test MultiAI.Tests/MultiAI.Tests.csproj --configuration Release -p:Platform=x64 --no-build --verbosity normal
