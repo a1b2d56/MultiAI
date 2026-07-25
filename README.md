@@ -17,6 +17,18 @@ A sleek, native Windows desktop application built with **WinUI 3** and **.NET 8*
 
 ---
 
+## API Key Configuration
+
+To start using MultiAI with your desired providers:
+1. Open **Settings** from the sidebar navigation menu.
+2. Enter your API key in the respective section:
+   - **Google Gemini**: Obtain from [Google AI Studio](https://aistudio.google.com/).
+   - **OpenAI**: Obtain from [OpenAI Developer Portal](https://platform.openai.com/api-keys).
+   - **Anthropic**: Obtain from [Anthropic Console](https://console.anthropic.com/).
+3. Click **Validate Key** to test connection, then click **Save Key**. Your keys are encrypted and stored in Windows Credential Locker.
+
+---
+
 ## Tech Stack
 
 - **UI Framework**: WinUI 3 (Windows App SDK)
@@ -41,11 +53,11 @@ A sleek, native Windows desktop application built with **WinUI 3** and **.NET 8*
 # Restore dependencies
 dotnet restore MultiAI.slnx
 
-# Build the solution
-dotnet build MultiAI.slnx
+# Build the solution (x64)
+dotnet build MultiAI.slnx -p:Platform=x64
 
 # Run unit tests
-dotnet test MultiAI.slnx
+dotnet test MultiAI.Tests/MultiAI.Tests.csproj -p:Platform=x64
 ```
 
 ---
