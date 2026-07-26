@@ -21,6 +21,11 @@ namespace MultiAI.ViewModels
         [ObservableProperty]
         private string _searchQuery = string.Empty;
 
+        async partial void OnSearchQueryChanged(string value)
+        {
+            await LoadSessionsAsync();
+        }
+
         public MainViewModel()
         {
             _db = new DatabaseService();
