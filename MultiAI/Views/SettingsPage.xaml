@@ -17,7 +17,8 @@
             <InfoBar IsOpen="{x:Bind ViewModel.IsSaveSuccessOpen, Mode=TwoWay}" 
                      Severity="Success" 
                      Title="Status Update" 
-                     Message="{x:Bind ViewModel.StatusMessage, Mode=OneWay}" />
+                     Message="{x:Bind ViewModel.StatusMessage, Mode=OneWay}"
+                     Margin="0,0,0,4" />
 
             <!-- Appearance Card -->
             <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" 
