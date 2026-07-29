@@ -16,5 +16,8 @@ namespace MultiAI.Models
 
         [Ignore]
         public string FormattedTimestamp => Timestamp.ToString("g");
+
+        [Ignore]
+        public string FormattedTimeOnly => Timestamp.ToString("t");
     }
 }
