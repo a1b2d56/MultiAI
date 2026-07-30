@@ -58,7 +58,7 @@ namespace MultiAI.Providers
 
         private static List<string> FallbackModels()
         {
-            return new List<string> { "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro" };
+            return new List<string> { "gemini-2.5-pro", "gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro" };
         }
 
         public async Task<string> SendMessageAsync(string message, List<Message> history)
