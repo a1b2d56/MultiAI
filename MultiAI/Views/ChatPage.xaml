@@ -116,7 +116,7 @@
 
             <TextBox Grid.Column="0" 
                      Text="{x:Bind ViewModel.InputMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                     PlaceholderText="Ask MultiAI anything..." 
+                     PlaceholderText="Type a message (Shift+Enter for new line)..." 
                      TextWrapping="Wrap" 
                      AcceptsReturn="True" 
                      MaxHeight="160" 
