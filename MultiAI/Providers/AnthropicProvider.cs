@@ -9,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using MultiAI.Models;
 
+namespace MultiAI.Providers
+{
     /// <summary>
     /// LLM Provider implementation for Anthropic Claude models via REST API with SSE streaming support.
     /// </summary>

@@ -50,7 +50,7 @@ namespace MultiAI.ViewModels
         {
             OpenAIApiKey = _storageService.GetKey("OpenAI") ?? string.Empty;
             AnthropicApiKey = _storageService.GetKey("Anthropic") ?? string.Empty;
-            GeminiApiKey = _storageService.GetKey("Gemini") ?? string.Empty;
+            GeminiApiKey = _storageService.GetKey("Google Gemini") ?? string.Empty;
 
             HasOpenAIKey = !string.IsNullOrEmpty(OpenAIApiKey);
             HasAnthropicKey = !string.IsNullOrEmpty(AnthropicApiKey);
@@ -100,7 +100,7 @@ namespace MultiAI.ViewModels
         [RelayCommand]
         public void SaveGeminiKey(string key)
         {
-            _storageService.SaveKey("Gemini", key);
+            _storageService.SaveKey("Google Gemini", key);
             GeminiApiKey = key;
             HasGeminiKey = !string.IsNullOrEmpty(key);
             ShowSuccess("Google Gemini API Key saved securely.");

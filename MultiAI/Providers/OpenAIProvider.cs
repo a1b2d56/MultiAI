@@ -73,27 +73,36 @@ namespace MultiAI.Providers
             }
 
             var chatMessages = BuildChatMessages(message, history);
+            string? initError = null;
+            IAsyncEnumerable<StreamingChatCompletionUpdate>? streamingUpdates = null;
 
-            AsyncCollectionResult<StreamingChatCompletionUpdate> streamingUpdates;
             try
             {
                 streamingUpdates = _client.CompleteChatStreamingAsync(chatMessages, cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
-                yield return $"Error initializing stream: {ex.Message}";
+                initError = $"Error initializing stream: {ex.Message}";
+            }
+
+            if (!string.IsNullOrEmpty(initError))
+            {
+                yield return initError;
                 yield break;
             }
 
-            await foreach (var update in streamingUpdates)
+            if (streamingUpdates != null)
             {
-                if (cancellationToken.IsCancellationRequested) break;
-
-                foreach (var contentPart in update.ContentUpdate)
+                await foreach (var update in streamingUpdates)
                 {
-                    if (!string.IsNullOrEmpty(contentPart.Text))
+                    if (cancellationToken.IsCancellationRequested) break;
+
+                    foreach (var contentPart in update.ContentUpdate)
                     {
-                        yield return contentPart.Text;
+                        if (!string.IsNullOrEmpty(contentPart.Text))
+                        {
+                            yield return contentPart.Text;
+                        }
                     }
                 }
             }
