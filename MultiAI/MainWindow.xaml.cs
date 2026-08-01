@@ -15,6 +15,7 @@ namespace MultiAI
             this.InitializeComponent();
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
+            SetAppIcon();
 
             if (Windows.Storage.ApplicationData.Current.LocalSettings.Values.TryGetValue("AppTheme", out object? themeObj) && themeObj is string themeStr)
             {
@@ -23,6 +24,19 @@ namespace MultiAI
                     SetTheme(theme);
                 }
             }
+        }
+
+        private void SetAppIcon()
+        {
+            try
+            {
+                string iconPath = System.IO.Path.Combine(System.AppContext.BaseDirectory, "Assets", "AppIcon.png");
+                if (System.IO.File.Exists(iconPath))
+                {
+                    this.AppWindow.SetIcon(iconPath);
+                }
+            }
+            catch { }
         }
 
         public void SetTheme(ElementTheme theme)
