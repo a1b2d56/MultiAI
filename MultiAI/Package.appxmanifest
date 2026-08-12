@@ -9,15 +9,15 @@
   IgnorableNamespaces="uap rescap systemai">
 
   <Identity
-    Name="3a79d0d1-2df9-49e2-863e-a50269c0dfd3"
-    Publisher="CN=Devil"
+    Name="A1B2D56.Multi.AI"
+    Publisher="CN=C5BB3BB9-088A-4346-B2B1-7CF2B31FE13D"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="3a79d0d1-2df9-49e2-863e-a50269c0dfd3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>MultiAI</DisplayName>
-    <PublisherDisplayName>Ananmay Jha</PublisherDisplayName>
+    <DisplayName>Multi.AI</DisplayName>
+    <PublisherDisplayName>A1B2D56</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -35,8 +35,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="MultiAI"
-        Description="MultiAI"
+        DisplayName="Multi.AI"
+        Description="Multi.AI - Unified Multi-Provider AI Desktop App"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">

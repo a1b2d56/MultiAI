@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="MultiAI">
+    Title="Multi.AI">
 
     <Window.SystemBackdrop>
         <MicaBackdrop />
@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         
         <Grid x:Name="AppTitleBar" Height="40" Grid.Row="0">
-            <TextBlock x:Name="AppTitle" Text="Multi AI" VerticalAlignment="Center" Margin="48,0,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
+            <TextBlock x:Name="AppTitle" Text="Multi.AI" VerticalAlignment="Center" Margin="48,0,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
         </Grid>
 
         <NavigationView x:Name="NavView" Grid.Row="1" IsBackButtonVisible="Collapsed" OpenPaneLength="200" ItemInvoked="NavView_ItemInvoked" Loaded="NavView_Loaded">
