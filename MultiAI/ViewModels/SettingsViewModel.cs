@@ -22,6 +22,24 @@ namespace MultiAI.ViewModels
         private string _geminiApiKey = string.Empty;
 
         [ObservableProperty]
+        private string _groqApiKey = string.Empty;
+
+        [ObservableProperty]
+        private string _deepSeekApiKey = string.Empty;
+
+        [ObservableProperty]
+        private string _mistralApiKey = string.Empty;
+
+        [ObservableProperty]
+        private string _openRouterApiKey = string.Empty;
+
+        [ObservableProperty]
+        private string _xAIApiKey = string.Empty;
+
+        [ObservableProperty]
+        private string _ollamaHost = "http://localhost:11434";
+
+        [ObservableProperty]
         private bool _isSaveSuccessOpen;
 
         [ObservableProperty]
@@ -35,6 +53,24 @@ namespace MultiAI.ViewModels
 
         [ObservableProperty]
         private bool _hasGeminiKey;
+
+        [ObservableProperty]
+        private bool _hasGroqKey;
+
+        [ObservableProperty]
+        private bool _hasDeepSeekKey;
+
+        [ObservableProperty]
+        private bool _hasMistralKey;
+
+        [ObservableProperty]
+        private bool _hasOpenRouterKey;
+
+        [ObservableProperty]
+        private bool _hasXAIKey;
+
+        [ObservableProperty]
+        private bool _hasOllamaKey;
 
         [ObservableProperty]
         private int _selectedThemeIndex;
@@ -51,10 +87,22 @@ namespace MultiAI.ViewModels
             OpenAIApiKey = _storageService.GetKey("OpenAI") ?? string.Empty;
             AnthropicApiKey = _storageService.GetKey("Anthropic") ?? string.Empty;
             GeminiApiKey = _storageService.GetKey("Google Gemini") ?? string.Empty;
+            GroqApiKey = _storageService.GetKey("Groq") ?? string.Empty;
+            DeepSeekApiKey = _storageService.GetKey("DeepSeek") ?? string.Empty;
+            MistralApiKey = _storageService.GetKey("Mistral AI") ?? string.Empty;
+            OpenRouterApiKey = _storageService.GetKey("OpenRouter") ?? string.Empty;
+            XAIApiKey = _storageService.GetKey("xAI (Grok)") ?? string.Empty;
+            OllamaHost = _storageService.GetKey("Ollama (Local)") ?? "http://localhost:11434";
 
             HasOpenAIKey = !string.IsNullOrEmpty(OpenAIApiKey);
             HasAnthropicKey = !string.IsNullOrEmpty(AnthropicApiKey);
             HasGeminiKey = !string.IsNullOrEmpty(GeminiApiKey);
+            HasGroqKey = !string.IsNullOrEmpty(GroqApiKey);
+            HasDeepSeekKey = !string.IsNullOrEmpty(DeepSeekApiKey);
+            HasMistralKey = !string.IsNullOrEmpty(MistralApiKey);
+            HasOpenRouterKey = !string.IsNullOrEmpty(OpenRouterApiKey);
+            HasXAIKey = !string.IsNullOrEmpty(XAIApiKey);
+            HasOllamaKey = !string.IsNullOrEmpty(OllamaHost);
         }
 
         private void LoadThemeSetting()
@@ -107,6 +155,61 @@ namespace MultiAI.ViewModels
         }
 
         [RelayCommand]
+        public void SaveGroqKey(string key)
+        {
+            _storageService.SaveKey("Groq", key);
+            GroqApiKey = key;
+            HasGroqKey = !string.IsNullOrEmpty(key);
+            ShowSuccess("Groq API Key saved securely.");
+        }
+
+        [RelayCommand]
+        public void SaveDeepSeekKey(string key)
+        {
+            _storageService.SaveKey("DeepSeek", key);
+            DeepSeekApiKey = key;
+            HasDeepSeekKey = !string.IsNullOrEmpty(key);
+            ShowSuccess("DeepSeek API Key saved securely.");
+        }
+
+        [RelayCommand]
+        public void SaveMistralKey(string key)
+        {
+            _storageService.SaveKey("Mistral AI", key);
+            MistralApiKey = key;
+            HasMistralKey = !string.IsNullOrEmpty(key);
+            ShowSuccess("Mistral AI API Key saved securely.");
+        }
+
+        [RelayCommand]
+        public void SaveOpenRouterKey(string key)
+        {
+            _storageService.SaveKey("OpenRouter", key);
+            OpenRouterApiKey = key;
+            HasOpenRouterKey = !string.IsNullOrEmpty(key);
+            ShowSuccess("OpenRouter API Key saved securely.");
+        }
+
+        [RelayCommand]
+        public void SaveXAIKey(string key)
+        {
+            _storageService.SaveKey("xAI (Grok)", key);
+            XAIApiKey = key;
+            HasXAIKey = !string.IsNullOrEmpty(key);
+            ShowSuccess("xAI (Grok) API Key saved securely.");
+        }
+
+        [RelayCommand]
+        public void SaveOllamaHost(string host)
+        {
+            string cleanHost = string.IsNullOrWhiteSpace(host) ? "http://localhost:11434" : host;
+            _storageService.SaveKey("Ollama (Local)", cleanHost);
+            OllamaHost = cleanHost;
+            HasOllamaKey = true;
+            ShowSuccess("Ollama Host URL saved securely.");
+        }
+
+        [RelayCommand]
         public async Task ValidateKeyAsync(string provider)
         {
             string key = provider switch
@@ -114,10 +217,16 @@ namespace MultiAI.ViewModels
                 "OpenAI" => OpenAIApiKey,
                 "Anthropic" => AnthropicApiKey,
                 "Google Gemini" or "Gemini" => GeminiApiKey,
+                "Groq" => GroqApiKey,
+                "DeepSeek" => DeepSeekApiKey,
+                "Mistral AI" or "Mistral" => MistralApiKey,
+                "OpenRouter" => OpenRouterApiKey,
+                "xAI (Grok)" or "xAI" or "Grok" => XAIApiKey,
+                "Ollama (Local)" or "Ollama" => OllamaHost,
                 _ => string.Empty
             };
 
-            if (string.IsNullOrWhiteSpace(key))
+            if (string.IsNullOrWhiteSpace(key) && provider != "Ollama (Local)" && provider != "Ollama")
             {
                 ShowSuccess($"Please enter a valid key for {provider} first.");
                 return;
@@ -129,11 +238,11 @@ namespace MultiAI.ViewModels
                 var models = await providerObj.GetAvailableModelsAsync(key);
                 if (models != null && models.Count > 0)
                 {
-                    ShowSuccess($"{provider} API Key validated successfully!");
+                    ShowSuccess($"{provider} connection validated successfully! Found {models.Count} model(s).");
                 }
                 else
                 {
-                    ShowSuccess($"Could not validate {provider} API key.");
+                    ShowSuccess($"Could not validate {provider} connection.");
                 }
             }
             catch (Exception ex)

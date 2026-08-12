@@ -144,7 +144,8 @@ namespace MultiAI.ViewModels
             ScrollToBottomRequested?.Invoke();
 
             string apiKey = _secureStorage.GetKey(SelectedProvider) ?? string.Empty;
-            if (string.IsNullOrEmpty(apiKey))
+            bool isOllama = SelectedProvider.StartsWith("Ollama", StringComparison.OrdinalIgnoreCase);
+            if (string.IsNullOrEmpty(apiKey) && !isOllama)
             {
                 var systemErr = new Message
                 {
