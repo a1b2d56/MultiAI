@@ -37,6 +37,15 @@ bld/
 # Windows credential/secrets
 secrets.json
 
-# Packages
+# Packages & Installer Outputs
 packages/
 *.nupkg
+*.msix
+*.msixbundle
+*.msixupload
+*.appxupload
+payload.zip
+temp_staging/
+temp_uninstaller/
+MultiAI.Installer/Resources/payload.zip
+

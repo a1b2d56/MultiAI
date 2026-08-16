@@ -1,0 +1,28 @@
+<UserControl
+    x:Class="MultiAI.Installer.Views.ProgressView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <Grid Margin="24" VerticalAlignment="Center">
+        <StackPanel MaxWidth="520" HorizontalAlignment="Center">
+            <StackPanel Margin="0,0,0,20">
+                <TextBlock Text="Installing Multi.AI..." FontSize="22" FontWeight="Bold"/>
+                <TextBlock Text="Please wait while setup copies files and configures your system." Foreground="#A0A0A0" FontSize="13" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <ui:CardControl Padding="20" Margin="0,0,0,16">
+                <StackPanel>
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock x:Name="StatusTextBlock" Text="Extracting application files..." FontSize="13" Foreground="#E0E0E0" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock x:Name="PercentTextBlock" Text="0%" HorizontalAlignment="Right" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
+                    </Grid>
+
+                    <ProgressBar x:Name="InstallProgressBar" Minimum="0" Maximum="100" Value="0" Height="8"/>
+                </StackPanel>
+            </ui:CardControl>
+
+            <TextBlock Text="Registering components and creating desktop shortcuts..." Foreground="#6E6E6E" FontSize="11" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,49 @@
+<UserControl
+    x:Class="MultiAI.Installer.Views.LicenseView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,12">
+            <TextBlock Text="License Agreement" FontSize="20" FontWeight="Bold"/>
+            <TextBlock Text="Please review the license terms before installing Multi.AI." Foreground="#A0A0A0" FontSize="12"/>
+        </StackPanel>
+
+        <ui:CardControl Grid.Row="1" Margin="0,0,0,12" Padding="12">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TextBlock TextWrapping="Wrap" FontFamily="Consolas" FontSize="11" Foreground="#CCCCCC" LineHeight="16">
+MIT License
+
+Copyright (c) 2026 Ananmay Jha (A1B2D56)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+                </TextBlock>
+            </ScrollViewer>
+        </ui:CardControl>
+
+        <CheckBox Grid.Row="2" x:Name="AcceptCheckBox" Content="I accept the terms of the License Agreement" IsChecked="True" Checked="AcceptCheckBox_Changed" Unchecked="AcceptCheckBox_Changed"/>
+    </Grid>
+</UserControl>

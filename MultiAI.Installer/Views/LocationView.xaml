@@ -1,0 +1,39 @@
+<UserControl
+    x:Class="MultiAI.Installer.Views.LocationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <Grid Margin="24">
+        <StackPanel>
+            <StackPanel Margin="0,0,0,16">
+                <TextBlock Text="Installation Options" FontSize="20" FontWeight="Bold"/>
+                <TextBlock Text="Choose where to install Multi.AI and configure shortcut preferences." Foreground="#A0A0A0" FontSize="12" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <ui:CardControl Padding="16" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Install Location" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,8"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ui:TextBox x:Name="PathTextBox" Text="C:\Program Files\Multi.AI" Margin="0,0,8,0"/>
+                        <ui:Button Grid.Column="1" Content="Browse..." Click="BrowseButton_Click"/>
+                    </Grid>
+                    <TextBlock Text="Space required: ~180 MB • Available on C: Drive" Foreground="#7A7A7A" FontSize="11" Margin="0,8,0,0"/>
+                </StackPanel>
+            </ui:CardControl>
+
+            <ui:CardControl Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Shortcut Preferences" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,8"/>
+                    <CheckBox x:Name="DesktopShortcutCheckBox" Content="Create Desktop shortcut" IsChecked="True" Margin="0,0,0,8"/>
+                    <CheckBox x:Name="StartMenuShortcutCheckBox" Content="Create Start Menu shortcut" IsChecked="True" Margin="0,0,0,8"/>
+                    <CheckBox x:Name="LaunchAfterCheckBox" Content="Launch Multi.AI when installation finishes" IsChecked="True"/>
+                </StackPanel>
+            </ui:CardControl>
+        </StackPanel>
+    </Grid>
+</UserControl>

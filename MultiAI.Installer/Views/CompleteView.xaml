@@ -1,0 +1,21 @@
+<UserControl
+    x:Class="MultiAI.Installer.Views.CompleteView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="24">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="500">
+            <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="64" Foreground="#10B981" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+            
+            <TextBlock Text="Installation Completed!" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,0,0,8"/>
+            
+            <TextBlock Text="Multi.AI has been installed on your PC and is ready for use." 
+                       Foreground="#A0A0A0" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+
+            <ui:CardControl Padding="16">
+                <CheckBox x:Name="LaunchCheckBox" Content="Launch Multi.AI now" IsChecked="True" FontSize="13" FontWeight="SemiBold"/>
+            </ui:CardControl>
+        </StackPanel>
+    </Grid>
+</UserControl>

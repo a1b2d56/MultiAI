@@ -1,0 +1,31 @@
+<UserControl
+    x:Class="MultiAI.Installer.Views.WelcomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="24">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="500">
+            <Image Source="/Assets/AppIcon.ico" Width="72" Height="72" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+            
+            <TextBlock Text="Welcome to Multi.AI Setup" FontSize="26" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,0,0,8"/>
+            
+            <TextBlock Text="A modern, unified desktop workspace for top AI models with real-time streaming and local offline support." 
+                       Foreground="#A0A0A0" FontSize="14" TextWrapping="Wrap" TextAlignment="Center" LineHeight="22" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+
+            <ui:CardControl Padding="16">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Product Details" FontWeight="SemiBold" FontSize="13"/>
+                        <TextBlock Text="Version 1.0.0 (x64) • by Ananmay Jha" Foreground="#888888" FontSize="12" Margin="0,4,0,0"/>
+                    </StackPanel>
+                    <ui:Badge Grid.Column="1" Content="Verified" Appearance="Success" VerticalAlignment="Center"/>
+                </Grid>
+            </ui:CardControl>
+        </StackPanel>
+    </Grid>
+</UserControl>
